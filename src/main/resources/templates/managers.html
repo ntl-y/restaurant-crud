@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Manager List</title>
+</head>
+<body>
+<h1>Manager List</h1>
+<table>
+    <tr>
+        <th>firstName</th>
+        <th>lastName</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    <tr th:each="manager : ${managers}">
+        <td th:text="${manager.firstName}"></td>
+        <td th:text="${manager.lastName}"></td>
+        <td th:text="${manager.email}"></td>
+        <td th:text="${manager.phone}"></td>
+        <td><a th:href="@{/managers/{id}/edit(id=${managers.id})}">Edit</a></td>
+        <td><form th:action="@{/managers/{id}(id=${managers.id})}" method="post">
+            <input type="hidden" name="_method" value="delete"/>
+            <input type="submit" value="Delete"/>
+        </form>
+        </td>
+    </tr>
+</table>
+<a href="/managers/new">New Manager</a>
+</body>
+</html>

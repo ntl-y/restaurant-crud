@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Restaurant List</title>
+</head>
+<body>
+<h1>Restaurant List</h1>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Address</th>
+        <th>Phone</th>
+        <th>Manager</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    <tr th:each="restaurant : ${restaurants}">
+        <td th:text="${restaurant.name}"></td>
+        <td th:text="${restaurant.address}"></td>
+        <td th:text="${restaurant.phone}"></td>
+        <td th:text="${restaurant.manager.name}"></td>
+        <td><a th:href="@{/restaurants/{id}/edit(id=${restaurant.id})}">Edit</a></td>
+        <td><form th:action="@{/restaurants/{id}(id=${restaurant.id})}" method="post">
+            <input type="hidden" name="_method" value="delete"/>
+            <input type="submit" value="Delete"/>
+        </form>
+        </td>
+    </tr>
+</table>
+<a href="/restaurants/new">New Restaurant</a>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>New Manager</title>
+</head>
+<body>
+<h1>New Manager</h1>
+<form th:action="@{/managers}" method="post">
+    <input type="hidden" name="_method" value="post"/>
+    <label for="firstName">firstName:</label>
+    <input type="text" id="firstName" name="firstName"/><br/>
+
+    <input type="hidden" name="_method" value="post"/>
+    <label for="lastName">lastName:</label>
+    <input type="text" id="lastName" name="lastName"/><br/>
+
+    <input type="hidden" name="_method" value="post"/>
+    <label for="email">Email:</label>
+    <input type="text" id="email" name="email"/><br/>
+
+    <input type="hidden" name="_method" value="post"/>
+    <label for="phone">Phone:</label>
+    <input type="text" id="phone" name="phone"/><br/>
+
+    <label for="menu">Menu:</label>
+    <select id="menu" name="menu.id">
+        <option th:each="menu : ${menus}" th:value="${menu.id}" th:text="${menu.name}"></option>
+    </select><br/>
+
+    <input type="submit" value="Save"/>
+</form>
+<a href="/managers">Back to list</a>
+</body>
+</html>

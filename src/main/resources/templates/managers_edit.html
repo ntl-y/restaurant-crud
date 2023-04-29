@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Edit Manager</title>
+</head>
+<body>
+<h1>Edit Manager</h1>
+<form th:action="@{/managers/{id}(id=${managers.id})}" method="post">
+    <input type="hidden" name="_method" value="put"/>
+
+    <label for="firstName">firstName:</label>
+    <input type="text" id="firstName" name="firstName" th:value="${managers.firstName}"/><br/>
+
+    <label for="lastName">lastName:</label>
+    <input type="text" id="lastName" name="lastName" th:value="${managers.lastName}"/><br/>
+
+    <label for="email">Email:</label>
+    <input type="text" id="email" name="email" th:value="${managers.email}"/><br/>
+
+    <label for="phone">Phone:</label>
+    <input type="text" id="phone" name="phone" th:value="${managers.phone}"/><br/>
+
+    <label for="menu">Menu:</label>
+    <select id="menu" name="menu.id">
+        <option th:each="menu : ${menus}" th:value="${menu.id}" th:text="${menu.name}" th:selected="${menu.id == food.menu.id}"></option>
+    </select><br/>
+    <input type="submit" value="Save"/>
+</form>
+<a href="/foods">Back to list</a>
+</body>
+</html>
