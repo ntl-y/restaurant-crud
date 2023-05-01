@@ -1,17 +1,21 @@
 package com.example.demo.controllers;
 
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import com.example.demo.entities.Manager;
 import com.example.demo.entities.Restaurant;
 import com.example.demo.services.ManagerService;
 import com.example.demo.services.RestaurantService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import java.io.Console;
-import java.util.List;
-import java.util.Optional;
 
 @Controller
 public class RestaurantController {
@@ -25,8 +29,23 @@ public class RestaurantController {
     }
 
     @GetMapping("/restaurants")
-    public String restaurant(Model model) {
-        Iterable<Restaurant> restaurants = restaurantService.getAll();
+    public String restaurant(@RequestParam(required = false) String name,
+            @RequestParam(required = false) String address,
+            @RequestParam(required = false) String phone,
+            Model model) {
+        Specification<Restaurant> spec = Specification.where(null);
+
+        if (name != null && !name.isEmpty()) {
+            spec = spec.and((root, query, builder) -> builder.like(root.get("name"), "%" + name + "%"));
+        }
+        if (address != null && !address.isEmpty()) {
+            spec = spec.and((root, query, builder) -> builder.like(root.get("address"), "%" + address + "%"));
+        }
+        if (phone != null && !phone.isEmpty()) {
+            spec = spec.and((root, query, builder) -> builder.like(root.get("phone"), "%" + phone + "%"));
+        }
+
+        Iterable<Restaurant> restaurants = restaurantService.getAll(spec);
         model.addAttribute("restaurants", restaurants);
         return "restaurants";
     }
