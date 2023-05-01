@@ -1,5 +1,4 @@
 package com.example.demo.entities;
-import com.example.demo.entities.Manager;
 import jakarta.persistence.*;
 
 @Entity

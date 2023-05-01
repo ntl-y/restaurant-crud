@@ -3,8 +3,8 @@ package com.example.demo.entities;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "Menus")
-public class Menu {
+@Table(name = "Foods")
+public class Food {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,16 +17,20 @@ public class Menu {
     @Column(name = "Description", length = 9999)
     private String description;
 
+    @Column(name = "Price")
+    private float price;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "RestaurantID", referencedColumnName = "ID")
-    private Restaurant restaurant;
+    @JoinColumn(name = "CategoryID", referencedColumnName = "ID")
+    private FoodCategory foodCategory;
 
-    public Menu() {}
+    public Food() {}
 
-    public Menu(String name, String description, Restaurant restaurant) {
+    public Food(String name, String description, float price, FoodCategory foodCategory) {
         this.name = name;
         this.description = description;
-        this.restaurant = restaurant;
+        this.price = price;
+        this.foodCategory = foodCategory;
     }
 
     public Integer getId() {
@@ -53,11 +57,19 @@ public class Menu {
         this.description = description;
     }
 
-    public Restaurant getRestaurant() {
-        return restaurant;
+    public float getPrice() {
+        return price;
     }
 
-    public void setRestaurant(Restaurant restaurant) {
-        this.restaurant = restaurant;
+    public void setPrice(float price) {
+        this.price = price;
+    }
+
+    public FoodCategory getFoodCategory() {
+        return foodCategory;
+    }
+
+    public void setFoodCategory(FoodCategory foodCategory) {
+        this.foodCategory = foodCategory;
     }
 }

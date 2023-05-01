@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit FoodCategory</title>
+</head>
+<body>
+<h1>Edit FoodCategory</h1>
+<form action="#" th:action="@{/food_categories_edit}" th:object="${foodCategory}" method="post">
+
+    <label for="id">ID</label>
+    <input readonly type="number" th:field="*{id}" id="id" placeholder="ID"><br/>
+
+    <label for="name">Name:</label>
+    <input type="text" th:field="*{Name}" id="Name" placeholder="Name"/><br/>
+    
+    <label for="menu">Menu Name:</label>
+    <select id="menu" name="menu.id">
+        <!--        <option value="">&#45;&#45; Select Menu &#45;&#45;</option>-->
+        <option th:each="menu : ${menus}"
+                th:value="${menu.id}"
+                th:text="${menu.Name}"
+                th:selected="${currentMenu != null && menu.id == currentMenu.id}">Menu Name</option>
+    </select><br/>
+
+    <input type="submit" value="Save"/>
+</form>
+<a href="/food_categories">Back to list</a>
+</body>
+</html>

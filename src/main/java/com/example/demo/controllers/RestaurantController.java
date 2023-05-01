@@ -5,7 +5,6 @@ import com.example.demo.entities.Restaurant;
 import com.example.demo.services.ManagerService;
 import com.example.demo.services.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;

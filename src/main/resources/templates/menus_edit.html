@@ -1,10 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Edit Menu</title>
 </head>
 <body>
+<h1>Edit Menu</h1>
+<form action="#" th:action="@{/menus_edit}" th:object="${menu}" method="post">
 
+    <label for="id">ID</label>
+    <input readonly type="number" th:field="*{id}" id="id" placeholder="ID"><br/>
+
+    <label for="name">Name:</label>
+    <input type="text" th:field="*{Name}" id="Name" placeholder="Name"/><br/>
+
+    <label for="description">Description:</label>
+    <textarea type="text" th:field="*{description}"id="description" placeholder="Description"/><br/>
+
+    <label for="restaurant">Restaurant Name:</label>
+    <select id="restaurant" name="restaurant.id">
+        <!--        <option value="">&#45;&#45; Select Restaurant &#45;&#45;</option>-->
+        <option th:each="restaurant : ${restaurants}"
+                th:value="${restaurant.id}"
+                th:text="${restaurant.name}"
+                th:selected="${currentRestaurant != null && restaurant.id == currentRestaurant.id}">Restaurant Name</option>
+    </select><br/>
+
+    <input type="submit" value="Save"/>
+</form>
+<a href="/menus">Back to list</a>
 </body>
 </html>
