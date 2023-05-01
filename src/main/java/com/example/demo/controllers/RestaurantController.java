@@ -5,6 +5,7 @@ import com.example.demo.entities.Restaurant;
 import com.example.demo.services.ManagerService;
 import com.example.demo.services.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,12 +21,12 @@ public class RestaurantController {
         this.restaurantService = restaurantService;
     }
 //  ----------------------------------------------------------------------------
-    @GetMapping("/restaurants")
-    public String restaurant(Model model){
-        Iterable<Restaurant> restaurants = restaurantService.getAll();
-        model.addAttribute("restaurants", restaurants);
-        return "restaurants";
-    }
+//    @GetMapping("/restaurants")
+//    public String restaurant(Model model){
+//        Iterable<Restaurant> restaurants = restaurantService.getAll();
+//        model.addAttribute("restaurants", restaurants);
+//        return "restaurants";
+//    }
 //  ----------------------------------------------------------------------------
     @GetMapping("/restaurants_new")
     public String newRestaurant(Model model){
@@ -91,5 +92,37 @@ public class RestaurantController {
             restaurantService.saveRestaurant(restaurant);
         }
         return "redirect:/restaurants";
+    }
+//  ----------------------------------------------------------------------------
+//    @GetMapping("/restaurants")
+//    public String getRestaurants(Model model,
+//                                 @RequestParam(required = false) String name,
+//                                 @RequestParam(required = false) String address,
+//                                 @RequestParam(required = false) String phone,
+//                                 @RequestParam(required = false) String managerName) {
+//        Iterable<Restaurant> restaurants = restaurantService.getRestaurants(name, address, phone, managerName);
+//        model.addAttribute("restaurants", restaurants);
+//        return "restaurants";
+//    }
+    @GetMapping("/restaurants")
+    public String restaurant(@RequestParam(required = false) String name,
+                             @RequestParam(required = false) String address,
+                             @RequestParam(required = false) String phone,
+                             Model model) {
+        Specification<Restaurant> spec = Specification.where(null);
+
+        if (name != null && !name.isEmpty()) {
+            spec = spec.and((root, query, builder) -> builder.like(root.get("name"), "%" + name + "%"));
+        }
+        if (address != null && !address.isEmpty()) {
+            spec = spec.and((root, query, builder) -> builder.like(root.get("address"), "%" + address + "%"));
+        }
+        if (phone != null && !phone.isEmpty()) {
+            spec = spec.and((root, query, builder) -> builder.like(root.get("phone"), "%" + phone + "%"));
+        }
+
+        Iterable<Restaurant> restaurants = restaurantService.getAll(spec);
+        model.addAttribute("restaurants", restaurants);
+        return "restaurants";
     }
 }

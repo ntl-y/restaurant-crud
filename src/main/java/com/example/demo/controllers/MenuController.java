@@ -5,6 +5,7 @@ import com.example.demo.entities.Menu;
 import com.example.demo.services.RestaurantService;
 import com.example.demo.services.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,13 +36,15 @@ public class MenuController {
     public String newMenu(Model model){
         Menu menu = new Menu();
         model.addAttribute("menu", menu);
-        Iterable<Restaurant> restaurants = restaurantService.getAll();
+        Specification<Restaurant> spec = Specification.where(null);
+        Iterable<Restaurant> restaurants = restaurantService.getAll(spec);
         model.addAttribute("restaurants", restaurants);
         return "menus_new";
     }
     @PostMapping("/menus_new")
     public String createMenu(@ModelAttribute("menu") Menu menu, Model model){
-        Iterable<Restaurant> restaurants = restaurantService.getAll();
+        Specification<Restaurant> spec = Specification.where(null);
+        Iterable<Restaurant> restaurants = restaurantService.getAll(spec);
         model.addAttribute("restaurants", restaurants);
         int restaurantId = menu.getRestaurant().getId();
         Optional<Restaurant> optionalRestaurant = restaurantService.getById(restaurantId);
@@ -65,7 +68,8 @@ public class MenuController {
     @GetMapping("/menus_edit/{id}")
     public String editMenu(@PathVariable("id") int id, Model model){
         Optional<Menu> optionalMenu = menuService.getById(id);
-        Iterable<Restaurant> restaurants = restaurantService.getAll();
+        Specification<Restaurant> spec = Specification.where(null);
+        Iterable<Restaurant> restaurants = restaurantService.getAll(spec);
         if (optionalMenu.isPresent()) {
             Menu menu = optionalMenu.get();
             model.addAttribute("menu", menu);
@@ -78,7 +82,8 @@ public class MenuController {
     }
     @PostMapping("/menus_edit")
     public String updateMenu(@ModelAttribute("menu") Menu menuData, Model model){
-        Iterable<Restaurant> restaurants = restaurantService.getAll();
+        Specification<Restaurant> spec = Specification.where(null);
+        Iterable<Restaurant> restaurants = restaurantService.getAll(spec);
         model.addAttribute("restaurants", restaurants);
         int restaurantId = menuData.getRestaurant().getId();
         int menuId = menuData.getId();
