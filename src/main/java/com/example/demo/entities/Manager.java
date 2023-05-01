@@ -76,6 +76,4 @@ public class Manager {
         this.phone = phone;
     }
 
-    // Другие геттеры и сеттеры
-
 }

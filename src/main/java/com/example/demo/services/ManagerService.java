@@ -8,18 +8,22 @@ import java.util.Optional;
 
 @Service
 public class ManagerService {
+    private final ManagerRepository repository;
     @Autowired
-    private ManagerRepository repository;
-    public Iterable<Manager> getAll(){
-        return repository.findAll();
+    public ManagerService(ManagerRepository repository){
+        this.repository = repository;
     }
     public Optional<Manager> getById(int id){
+
         return repository.findById(id);
     }
-    public Manager save(Manager manager){
+    public Iterable<Manager> getAll() {
+        return repository.findAll();
+    }
+    public Manager saveManager(Manager manager){
         return repository.save(manager);
     }
-    public void deleteById(int id){
+    public void deleteManagerById(int id){
         repository.deleteById(id);
     }
 }

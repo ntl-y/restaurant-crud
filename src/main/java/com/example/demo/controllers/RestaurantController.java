@@ -1,80 +1,95 @@
 package com.example.demo.controllers;
 
-
 import com.example.demo.entities.Manager;
 import com.example.demo.entities.Restaurant;
-import com.example.demo.repositories.RestaurantRepository;
 import com.example.demo.services.ManagerService;
 import com.example.demo.services.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/restaurants")
 public class RestaurantController {
+    private final ManagerService managerService;
+    private final RestaurantService restaurantService;
     @Autowired
-    private RestaurantService restaurantService;
-    @Autowired
-    private ManagerService managerService;
-    @GetMapping
+    public RestaurantController(RestaurantService restaurantService, ManagerService managerService){
+        this.managerService = managerService;
+        this.restaurantService = restaurantService;
+    }
+//  ----------------------------------------------------------------------------
+    @GetMapping("/restaurants")
     public String restaurant(Model model){
         Iterable<Restaurant> restaurants = restaurantService.getAll();
         model.addAttribute("restaurants", restaurants);
         return "restaurants";
     }
-    @GetMapping("/restaurants/restaurants_new")
-    public String newRestaurant(Model model) {
+//  ----------------------------------------------------------------------------
+    @GetMapping("/restaurants_new")
+    public String newRestaurant(Model model){
         Restaurant restaurant = new Restaurant();
-        Iterable<Manager> managers = managerService.getAll();
         model.addAttribute("restaurant", restaurant);
+        Iterable<Manager> managers = managerService.getAll();
         model.addAttribute("managers", managers);
         return "restaurants_new";
     }
-
-    @PostMapping
-    public String create(@ModelAttribute("restaurant") Restaurant restaurant) {
-        restaurantService.save(restaurant);
+    @PostMapping("/restaurants_new")
+    public String createRestaurant(@ModelAttribute("restaurant") Restaurant restaurant, Model model){
+        Iterable<Manager> managers = managerService.getAll();
+        model.addAttribute("managers", managers);
+        int managerId = restaurant.getManager().getId();
+        Optional<Manager> optionalManager = managerService.getById(managerId);
+        if (optionalManager.isPresent()) {
+            Manager manager = optionalManager.get();
+            restaurant.setManager(manager);
+            restaurantService.saveRestaurant(restaurant);
+        }
         return "redirect:/restaurants";
     }
-
-    @GetMapping("/restaurants/{id}/restaurants_edit")
-    public String edit(@PathVariable("id") int id, Model model) {
+//  ----------------------------------------------------------------------------
+    @GetMapping("/restaurants_delete/{id}")
+    public String deleteRestaurant(@PathVariable("id")int id) {
         Optional<Restaurant> optionalRestaurant = restaurantService.getById(id);
         if (optionalRestaurant.isPresent()) {
+            restaurantService.deleteRestaurantById(id);
+        }
+        return "redirect:/restaurants";
+    }
+//  ----------------------------------------------------------------------------
+    @GetMapping("/restaurants_edit/{id}")
+    public String editRestaurant(@PathVariable("id") int id, Model model){
+        Optional<Restaurant> optionalRestaurant = restaurantService.getById(id);
+        Iterable<Manager> managers = managerService.getAll();
+        if (optionalRestaurant.isPresent()) {
             Restaurant restaurant = optionalRestaurant.get();
-            Iterable<Manager> managers = managerService.getAll();
-            model.addAttribute("restaurant", restaurant);
+            model.addAttribute("restaurant", optionalRestaurant);
             model.addAttribute("managers", managers);
+
+            model.addAttribute("currentManager", restaurant.getManager());
             return "restaurants_edit";
-        } else {
+        }else{
             return "redirect:/restaurants";
         }
     }
-    @PutMapping("/{id}")
-    public String update(@PathVariable("id") int id, @ModelAttribute("restaurant") Restaurant restaurantData) {
-        Optional<Restaurant> optionalRestaurant = restaurantService.getById(id);
-        if (optionalRestaurant.isPresent()) {
+    @PostMapping("/restaurants_edit")
+    public String updateRestaurant(@ModelAttribute("restaurant") Restaurant restaurantData, Model model){
+        Iterable<Manager> managers = managerService.getAll();
+        model.addAttribute("managers", managers);
+        int managerId = restaurantData.getManager().getId();
+        int restaurantId = restaurantData.getId();
+        Optional<Restaurant> optionalRestaurant = restaurantService.getById(restaurantId);
+        Optional<Manager> optionalManager = managerService.getById(managerId);
+        if (optionalRestaurant.isPresent() && optionalManager.isPresent()){
             Restaurant restaurant = optionalRestaurant.get();
+            Manager manager = optionalManager.get();
             restaurant.setName(restaurantData.getName());
             restaurant.setAddress(restaurantData.getAddress());
             restaurant.setPhone(restaurantData.getPhone());
             restaurant.setManager(restaurantData.getManager());
-            restaurantService.save(restaurant);
-        }
-        return "redirect:/restaurants";
-    }
-
-    @DeleteMapping("/{id}")
-    public String delete(@PathVariable("id") int id) {
-        Optional<Restaurant> optionalRestaurant = restaurantService.getById(id);
-        if (optionalRestaurant.isPresent()) {
-//            Restaurant restaurant = optionalRestaurant.get();
-            restaurantService.deleteById(id);
+            restaurantService.saveRestaurant(restaurant);
         }
         return "redirect:/restaurants";
     }

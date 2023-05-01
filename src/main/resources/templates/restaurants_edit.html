@@ -1,31 +1,36 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Edit Manager</title>
+    <meta charset="UTF-8">
+    <title>Edit Restaurant</title>
 </head>
 <body>
-<h1>Edit Manager</h1>
-<form th:action="@{/managers/{id}(id=${managers.id})}" method="post">
-    <input type="hidden" name="_method" value="put"/>
+<h1>Edit Restaurant</h1>
+<form action="#" th:action="@{/restaurants_edit}" th:object="${restaurant}" method="post">
 
-    <label for="firstName">firstName:</label>
-    <input type="text" id="firstName" name="firstName" th:value="${managers.firstName}"/><br/>
+    <label for="id">ID</label>
+    <input readonly type="number" th:field="*{id}" id="id" placeholder="ID"><br/>
 
-    <label for="lastName">lastName:</label>
-    <input type="text" id="lastName" name="lastName" th:value="${managers.lastName}"/><br/>
+    <label for="name">Name:</label>
+    <input type="text" th:field="*{Name}" id="Name" placeholder="Name"/><br/>
 
-    <label for="email">Email:</label>
-    <input type="text" id="email" name="email" th:value="${managers.email}"/><br/>
+    <label for="address">Address:</label>
+    <input type="text" th:field="*{address}"id="address" placeholder="Address"/><br/>
 
     <label for="phone">Phone:</label>
-    <input type="text" id="phone" name="phone" th:value="${managers.phone}"/><br/>
+    <input type="text" th:field="*{phone}" id="phone" placeholder="Phone"/><br/>
 
-    <label for="menu">Menu:</label>
-    <select id="menu" name="menu.id">
-        <option th:each="menu : ${menus}" th:value="${menu.id}" th:text="${menu.name}" th:selected="${menu.id == food.menu.id}"></option>
+    <label for="manager">Manager Name:</label>
+    <select id="manager" name="manager.id">
+<!--        <option value="">&#45;&#45; Select Manager &#45;&#45;</option>-->
+        <option th:each="manager : ${managers}"
+                th:value="${manager.id}"
+                th:text="${manager.firstName}"
+                th:selected="${currentManager != null && manager.id == currentManager.id}">Manager Name</option>
     </select><br/>
+
     <input type="submit" value="Save"/>
 </form>
-<a href="/foods">Back to list</a>
+<a href="/restaurants">Back to list</a>
 </body>
 </html>
