@@ -6,7 +6,7 @@
 </head>
 <body>
 <h1>New Manager</h1>
-<form action="#" th:action="@{/managers_new}" th:object="${manager}" method="post">
+<form action="#" th:action="@{/managers/managers_new}" th:object="${manager}" method="post">
 
     <label for="firstName">First Name:</label>
     <input type="text" th:field="*{firstName}" id="firstName" placeholder="First Name"/><br/>

@@ -11,61 +11,77 @@ import java.util.Optional;
 @Controller
 public class ManagerController {
   private final ManagerService managerService;
+
   @Autowired
-  public ManagerController(ManagerService managerService){
+  public ManagerController(ManagerService managerService) {
     this.managerService = managerService;
   }
-//  ----------------------------------------------------------------------------
+
   @GetMapping("/managers")
-  public String manager(Model model){
+  public String manager(Model model) {
     Iterable<Manager> managers = managerService.getAll();
     model.addAttribute("managers", managers);
     return "managers";
   }
-//  ----------------------------------------------------------------------------
-  @GetMapping("/managers_new")
-  public String newManager(Model model){
+
+  // @GetMapping("/{id}")
+  // public String show(@PathVariable("id") int id, Model model) {
+  //   Optional<Manager> optionalManager = managerService.getById(id);
+  //   if (optionalManager.isPresent()) {
+  //     Manager manager = optionalManager.get();
+  //     model.addAttribute("manager", manager);
+  //     return "managers/show";
+  //   } else {
+  //     return "redirect:/managers";
+  //   }
+  // }
+
+  @GetMapping("/managers/managers_new")
+  public String newManager(Model model) {
     Manager manager = new Manager();
     model.addAttribute("manager", manager);
     return "managers_new";
   }
-  @PostMapping("/managers_new")
-  public String createManager(@ModelAttribute("manager") Manager manager){
+
+  @PostMapping("/managers/managers_new")
+  public String create(@ModelAttribute("manager") Manager manager) {
     managerService.saveManager(manager);
     return "redirect:/managers";
   }
-//  ----------------------------------------------------------------------------
-  @GetMapping("/managers_delete/{id}")
-  public String deleteManager(@PathVariable("id")int id) {
+
+  @GetMapping("/managers/{id}/managers_edit")
+  public String edit(@PathVariable("id") int id, Model model) {
     Optional<Manager> optionalManager = managerService.getById(id);
     if (optionalManager.isPresent()) {
-      managerService.deleteManagerById(id);
-    }
-    return "redirect:/managers";
-  }
-//  ----------------------------------------------------------------------------
-  @GetMapping("/managers_edit/{id}")
-  public String editManager(@PathVariable("id") int id, Model model){
-    Optional<Manager> optionalManager = managerService.getById(id);
-    if (optionalManager.isPresent()) {
-      model.addAttribute("manager", optionalManager);
+      Manager manager = optionalManager.get();
+      model.addAttribute("manager", manager);
       return "managers_edit";
-    }else{
+    } else {
       return "redirect:/managers";
     }
   }
-  @PostMapping("/managers_edit")
-  public String updateManager(@ModelAttribute("manager") Manager managerData){
-    int managerId = managerData.getId();
-    Optional<Manager> optionalManager = managerService.getById(managerId);
-    if (optionalManager.isPresent()){
+
+  @PostMapping("managers/{id}/managers_edit")
+  public String update(@PathVariable("id") int id, @ModelAttribute("manager") Manager managerData) {
+    Optional<Manager> optionalManager = managerService.getById(id);
+    if (optionalManager.isPresent()) {
       Manager manager = optionalManager.get();
       manager.setFirstName(managerData.getFirstName());
       manager.setLastName(managerData.getLastName());
       manager.setEmail(managerData.getEmail());
-      manager.setPhone(managerData.getPhone());
+      manager.setPhone(manager.getPhone());
       managerService.saveManager(manager);
-      }
+    }
+    return "redirect:/managers";
+  }
+
+  @GetMapping("managers/{id}/managers_delete")
+  public String delete(@PathVariable("id") int id) {
+    Optional<Manager> optionalManager = managerService.getById(id);
+    if (optionalManager.isPresent()) {
+      // Manager manager = optionalManager.get();
+      managerService.deleteManagerById(id);
+    }
     return "redirect:/managers";
   }
 }

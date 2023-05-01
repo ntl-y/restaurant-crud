@@ -6,7 +6,7 @@
 </head>
 <body>
 <h1>Edit Restaurant</h1>
-<form action="#" th:action="@{/restaurants_edit}" th:object="${restaurant}" method="post">
+<form action="#" th:action="@{/restaurants/{id}/restaurants_edit(id=${restaurant.id})}" th:object="${restaurant}" method="post">
 
     <label for="id">ID</label>
     <input readonly type="number" th:field="*{id}" id="id" placeholder="ID"><br/>

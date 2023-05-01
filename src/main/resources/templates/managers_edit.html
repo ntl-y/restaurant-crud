@@ -6,7 +6,7 @@
 </head>
 <body>
 <h1>Edit Manager</h1>
-<form action="#" th:action="@{/managers_edit}" th:object="${manager}" method="post">
+<form action="#" th:action="@{/managers/{id}/managers_edit(id=${manager.id})}" th:object="${manager}" method="post">
 
     <label for="id">ID</label>
     <input readonly type="number" th:field="*{id}" id="id" placeholder="ID"><br/>

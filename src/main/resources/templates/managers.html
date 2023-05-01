@@ -15,7 +15,7 @@
 <div th:switch="${managers}">
     <h2 th:case="null">No managers found!</h2>
     <div th:case="*">
-        <a th:href="@{/managers_new}" class="btn btn-primary btn-sm mb-3 my-0 mr-md-auto font-weight-normal"> Add Manager </a>
+        <a th:href="@{/managers/managers_new}" class="btn btn-primary btn-sm mb-3 my-0 mr-md-auto font-weight-normal"> Add Manager </a>
         <table border="1" class="table table-striped table-responsive-md">
             <tr>
                 <th>ID</th>
@@ -32,8 +32,8 @@
                 <td th:text="${manager.lastName}"></td>
                 <td th:text="${manager.email}"></td>
                 <td th:text="${manager.phone}"></td>
-                <td><a th:href="@{managers_edit/{id}(id=${manager.id})}" class="btn btn-primary">Edit</a></td>
-                <td><a th:href="@{managers_delete/{id}(id=${manager.id})}" class="btn btn-danger">Delete</a></td>
+                <td><a th:href="@{managers/{id}/managers_edit(id=${manager.id})}" class="btn btn-primary">Edit</a></td>
+                <td><a th:href="@{managers/{id}/managers_delete(id=${manager.id})}" class="btn btn-danger">Delete</a></td>
             </tr>
         </table>
     </div>

@@ -6,7 +6,7 @@
 </head>
 <body>
 <h1>New Restaurant</h1>
-<form action="#" th:action="@{/restaurants_new}" th:object="${restaurant}" method="post">
+<form action="#" th:action="@{/restaurants/restaurants_new}" th:object="${restaurant}" method="post">
 
     <label for="name">Name:</label>
     <input type="text" th:field="*{name}" id="Name" placeholder="Name"/><br/>
