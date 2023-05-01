@@ -8,7 +8,5 @@ grant all on restaurant_db.* to 'restaurant_user'@'%';
 
 sudo ./mvnw spring-boot:run
 
-http://localhost:8081/demo/add?firstname=boris&lastName=borisov&email=2&phone=2
-
 USE restaurant_db;
 SHOW TABLES;
