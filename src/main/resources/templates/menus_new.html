@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>New Menu</title>
+</head>
+<body>
+<h1>New Menu</h1>
+<form action="#" th:action="@{/menus_new}" th:object="${menu}" method="post">
+
+    <label for="name">Name:</label>
+    <input type="text" th:field="*{name}" id="Name" placeholder="Name"/><br/>
+
+    <label for="description">Description:</label>
+    <textarea type="text" th:field="*{description}"id="description" placeholder="Description"/><br/>
+
+    <label for="restaurant">Restaurant:</label>
+    <select id="restaurant" name="restaurant.id">
+        <!--        <option value="">&#45;&#45; Select Restaurant &#45;&#45;</option>-->
+        <option th:each="restaurant : ${restaurants}"
+                th:value="${restaurant.id}"
+                th:text="${restaurant.name}">Restaurant Name</option>
+    </select><br/>
+
+    <input type="submit" value="Save"/>
+</form>
+<a href="/menus">Back to list</a>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Manager</title>
+</head>
+<body>
+<h1>Edit Manager</h1>
+<form action="#" th:action="@{/managers_edit}" th:object="${manager}" method="post">
+
+    <label for="id">ID</label>
+    <input readonly type="number" th:field="*{id}" id="id" placeholder="ID"><br/>
+
+    <label for="firstName">First Name:</label>
+    <input type="text" th:field="*{firstName}" id="firstName" placeholder="First Name"/><br/>
+
+    <label for="lastName">Last Name:</label>
+    <input type="text" th:field="*{lastName}"id="lastName" placeholder="Last Name"/><br/>
+
+    <label for="email">Email:</label>
+    <input type="text" th:field="*{email}" id="email" placeholder="Email"/><br/>
+
+    <label for="phone">Phone:</label>
+    <input type="text" th:field="*{phone}" id="phone" placeholder="Phone"/><br/>
+
+    <input type="submit" value="Edit Manager"/>
+</form>
+<a href="/managers">Back to list</a>
+</body>
+</html>
