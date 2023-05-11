@@ -1,27 +1,52 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
-    <title>New Manager</title>
+    <title>Edit Manager</title>
+    <!-- Add Bootstrap stylesheet -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
 </head>
 <body>
-<h1>New Manager</h1>
-<form action="#" th:action="@{/managers_new}" th:object="${manager}" method="post">
+<div class="container">
+    <h1>New Manager</h1>
+    <form action="#" th:action="@{/managers_new}" th:object="${manager}" method="post">
 
-    <label for="firstName">First Name:</label>
-    <input type="text" th:field="*{firstName}" id="firstName" placeholder="First Name"/><br/>
+        <div class="form-group">
+            <label for="firstName">First Name:</label>
+            <input type="text" th:field="*{firstName}" class="form-control" id="firstName" placeholder="First Name"/>
+        </div>
 
-    <label for="lastName">Last Name:</label>
-    <input type="text" th:field="*{lastName}"id="lastName" placeholder="Last Name"/><br/>
+        <div class="form-group">
+            <label for="lastName">Last Name:</label>
+            <input type="text" th:field="*{lastName}" class="form-control" id="lastName" placeholder="Last Name"/>
+        </div>
 
-    <label for="email">Email:</label>
-    <input type="text" th:field="*{email}" id="email" placeholder="Email"/><br/>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="text" th:field="*{email}" class="form-control" id="email" placeholder="Email"/>
+        </div>
 
-    <label for="phone">Phone:</label>
-    <input type="text" th:field="*{phone}" id="phone" placeholder="Phone"/><br/>
+        <div class="form-group">
+            <label for="phone">Phone:</label>
+            <input type="text" th:field="*{phone}" class="form-control" id="phone" placeholder="Phone"/>
+        </div>
 
-    <input type="submit" value="Create Manager"/>
-</form>
-<a href="/managers">Back to list</a>
+    <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+    <a href="/managers" class="btn btn-secondary mt-3">Back to list</a>
+</div>
+
+<!-- Add Bootstrap JavaScript -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
 </body>
 </html>

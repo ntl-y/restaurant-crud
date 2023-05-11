@@ -3,30 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <title>New Food</title>
+    <!-- Add Bootstrap stylesheet -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
 </head>
 <body>
-<h1>New Food</h1>
-<form action="#" th:action="@{/foods_new}" th:object="${food}" method="post">
+<div class="container">
+    <h1>New Food</h1>
+    <form action="#" th:action="@{/foods_new}" th:object="${food}" method="post">
 
-    <label for="name">Name:</label>
-    <input type="text" th:field="*{name}" id="Name" placeholder="Name"/><br/>
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" th:field="*{name}" class="form-control" id="Name" placeholder="Name"/>
+        </div>
 
-    <label for="description">Description:</label>
-    <textarea type="text" th:field="*{description}"id="description" placeholder="Description"/><br/>
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea type="text" th:field="*{description}" class="form-control"id="description" placeholder="Description"/></textarea>
+        </div>
 
-    <label for="price">Price:</label>
-    <input type="text" th:field="*{price}" id="price" placeholder="Price"/><br/>
+        <div class="form-group">
+            <label for="price">Price:</label>
+            <input type="text" th:field="*{price}" class="form-control" id="price" placeholder="Price"/>
+        </div>
 
-    <label for="foodCategory">FoodCategory:</label>
-    <select id="foodCategory" name="foodCategory.id">
-        <!--        <option value="">&#45;&#45; Select FoodCategory &#45;&#45;</option>-->
-        <option th:each="foodCategory : ${foodCategories}"
-                th:value="${foodCategory.id}"
-                th:text="${foodCategory.Name}">Food Category Name</option>
-    </select><br/>
+        <div class="form-group">
+            <label for="foodCategory">FoodCategory:</label>
+            <select id="foodCategory" name="foodCategory.id" class="form-control">
+                <!--        <option value="">&#45;&#45; Select FoodCategory &#45;&#45;</option>-->
+                <option th:each="foodCategory : ${foodCategories}"
+                        th:value="${foodCategory.id}"
+                        th:text="${foodCategory.Name}">Food Category Name
+                </option>
+            </select>
+        </div>
 
-    <input type="submit" value="Save"/>
-</form>
-<a href="/foods">Back to list</a>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+    <a href="/foods" class="btn btn-secondary mt-3">Back to list</a>
+</div>
+
+<!-- Add Bootstrap JavaScript -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
 </body>
 </html>

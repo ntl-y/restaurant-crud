@@ -25,19 +25,3 @@ public class RestaurantService {
     public void deleteRestaurantById(int id){repository.deleteById(Long.valueOf(id));}
 
 }
-//    public Iterable<Restaurant> getRestaurants(String name,
-//                                               String address,
-//                                               String phone,
-//                                               String managerFirstName){
-//        if (name == null && address == null && phone == null && managerFirstName == null) {
-//            return repository.findAll();
-//        } else {
-//            return repository.findRestaurantByValues(
-//                    name != null ? name : "",
-//                    address != null ? address : "",
-//                    phone != null ? phone : "",
-//                    managerFirstName != null ? managerFirstName : ""
-//            );
-//        }
-//    }
-//}

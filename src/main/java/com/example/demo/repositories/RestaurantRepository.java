@@ -7,9 +7,6 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-//public interface RestaurantRepository extends CrudRepository<Restaurant, Integer> {
-//    Iterable<Restaurant> findRestaurantByValues(String name, String address, String phone, String managerFirstName);
-//}
 @Repository
 public interface RestaurantRepository extends JpaRepository<Restaurant, Long>, JpaSpecificationExecutor<Restaurant> {
     // Дополнительные методы репозитория, если нужны

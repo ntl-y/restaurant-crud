@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -25,12 +22,12 @@ public class MenuController {
         this.menuService = menuService;
     }
     //  ----------------------------------------------------------------------------
-    @GetMapping("/menus")
-    public String menu(Model model){
-        Iterable<Menu> menus = menuService.getAll();
-        model.addAttribute("menus", menus);
-        return "menus";
-    }
+//    @GetMapping("/menus")
+//    public String menu(Model model){
+//        Iterable<Menu> menus = menuService.getAll();
+//        model.addAttribute("menus", menus);
+//        return "menus";
+//    }
     //  ----------------------------------------------------------------------------
     @GetMapping("/menus_new")
     public String newMenu(Model model){
@@ -98,6 +95,32 @@ public class MenuController {
             menuService.saveMenu(menu);
         }
         return "redirect:/menus";
+    }
+    //  ----------------------------------------------------------------------------
+    @GetMapping("/menus")
+    public String menu(@RequestParam(required = false) String name,
+                             @RequestParam(required = false) String description,
+                             @RequestParam(required = false) String id,
+                             @RequestParam(required = false) Long restaurantId,
+                             Model model) {
+        Specification<Menu> spec = Specification.where(null);
+
+        if (name != null && !name.isEmpty()) {
+            spec = spec.and((root, query, builder) -> builder.equal(root.get("name"),  name ));
+        }
+        if (description != null && !description.isEmpty()) {
+            spec = spec.and((root, query, builder) -> builder.equal(root.get("description"),  description));
+        }
+        if (id != null && !id.isEmpty()) {
+            spec = spec.and((root, query, builder) -> builder.equal(root.get("id"), id));
+        }
+//        if (managerId != null ) {
+//            spec = spec.and((root, query, builder) -> builder.equal(root.get("manager").get("managerId"), managerId));
+//        }
+
+        Iterable<Menu> menus = menuService.getAll(spec);
+        model.addAttribute("menus", menus);
+        return "menus";
     }
 }
 

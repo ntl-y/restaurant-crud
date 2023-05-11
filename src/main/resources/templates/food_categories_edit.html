@@ -1,30 +1,54 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
-    <title>Edit FoodCategory</title>
+    <title>Edit Food Category</title>
+    <!-- Add Bootstrap stylesheet -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
 </head>
 <body>
-<h1>Edit FoodCategory</h1>
-<form action="#" th:action="@{/food_categories_edit}" th:object="${foodCategory}" method="post">
+<div class="container">
+    <h1>Edit Food Category</h1>
+    <form action="#" th:action="@{/food_categories_edit}" th:object="${foodCategory}" method="post">
 
-    <label for="id">ID</label>
-    <input readonly type="number" th:field="*{id}" id="id" placeholder="ID"><br/>
+        <div class="form-group">
+            <label for="id">ID:</label>
+            <input readonly type="number" th:field="*{id}" class="form-control" id="id" placeholder="ID">
+        </div>
 
-    <label for="name">Name:</label>
-    <input type="text" th:field="*{Name}" id="Name" placeholder="Name"/><br/>
-    
-    <label for="menu">Menu Name:</label>
-    <select id="menu" name="menu.id">
-        <!--        <option value="">&#45;&#45; Select Menu &#45;&#45;</option>-->
-        <option th:each="menu : ${menus}"
-                th:value="${menu.id}"
-                th:text="${menu.Name}"
-                th:selected="${currentMenu != null && menu.id == currentMenu.id}">Menu Name</option>
-    </select><br/>
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" th:field="*{Name}" class="form-control" id="Name" placeholder="Name"/>
+        </div>
 
-    <input type="submit" value="Save"/>
-</form>
-<a href="/food_categories">Back to list</a>
+        <div class="form-group">
+            <label for="menu">Menu Name:</label>
+            <select id="menu" name="menu.id" class="form-control">
+                <!--        <option value="">&#45;&#45; Select Menu &#45;&#45;</option>-->
+                <option th:each="menu : ${menus}"
+                        th:value="${menu.id}"
+                        th:text="${menu.Name}"
+                        th:selected="${currentMenu != null && menu.id == currentMenu.id}">Menu Name
+                </option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+    <a href="/food_categories" class="btn btn-secondary mt-3">Back to list</a>
+</div>
+
+<!-- Add Bootstrap JavaScript -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
 </body>
 </html>

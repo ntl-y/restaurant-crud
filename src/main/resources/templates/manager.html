@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!--    <title> th:text="${title}" </title>-->
+    <title th:text="${title}" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+    <h5 class="my-0 mr-md-auto font-weight-normal">Менеджеры</h5>
+    <nav class="my-2 my-md-0 mr-md-3">
+        <a class="p-2 text-dark" href="/">Назад</a>
+    </nav>
+</div>
+
+<a th:href="@{/manager/manager_create}" class="btn btn-primary btn-sm mb-3 my-0 mr-md-auto font-weight-normal"> Add Employee </a>
+<table border="1" class="table table-striped table-responsive-md">
+    <thead>
+    <tr>
+        <th>Manager First Name</th>
+        <th>Manager Last Name</th>
+        <th>Manager Email</th>
+        <th>Manager Phone</th>
+        <th style="width:16.50%"> Actions </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="manager:${managers}">
+        <td th:text="${manager.firstName}"></td>
+        <td th:text="${manager.lastName}"></td>
+        <td th:text="${manager.email}"></td>
+        <td th:text="${manager.phone}"></td>
+        <td><a th:href="@{/manager_update}" class="btn btn-primary">Update</a>
+            <a class="btn btn-danger" th:attr="onclick=|openPopup('${manager.id}')|">Delete</a>
+        </td>
+
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

@@ -2,15 +2,15 @@ package com.example.demo.controllers;
 
 import com.example.demo.entities.FoodCategory;
 import com.example.demo.entities.Food;
+import com.example.demo.entities.Manager;
+import com.example.demo.entities.Food;
 import com.example.demo.services.FoodCategoryService;
 import com.example.demo.services.FoodService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -24,24 +24,26 @@ public class FoodController {
         this.foodService = foodService;
     }
     //  ----------------------------------------------------------------------------
-    @GetMapping("/foods")
-    public String food(Model model){
-        Iterable<Food> foods = foodService.getAll();
-        model.addAttribute("foods", foods);
-        return "foods";
-    }
+//    @GetMapping("/foods")
+//    public String food(Model model){
+//        Iterable<Food> foods = foodService.getAll();
+//        model.addAttribute("foods", foods);
+//        return "foods";
+//    }
     //  ----------------------------------------------------------------------------
     @GetMapping("/foods_new")
     public String newFood(Model model){
         Food food = new Food();
         model.addAttribute("food", food);
-        Iterable<FoodCategory> foodCategories = foodCategoryService.getAll();
+        Specification<FoodCategory> spec = Specification.where(null);
+        Iterable<FoodCategory> foodCategories = foodCategoryService.getAll(spec);
         model.addAttribute("foodCategories", foodCategories);
         return "foods_new";
     }
     @PostMapping("/foods_new")
     public String createFood(@ModelAttribute("food") Food food, Model model){
-        Iterable<FoodCategory> foodCategories = foodCategoryService.getAll();
+        Specification<FoodCategory> spec = Specification.where(null);
+        Iterable<FoodCategory> foodCategories = foodCategoryService.getAll(spec);
         model.addAttribute("foodCategories", foodCategories);
         int foodCategoryId = food.getFoodCategory().getId();
         Optional<FoodCategory> optionalFoodCategory = foodCategoryService.getById(foodCategoryId);
@@ -65,7 +67,8 @@ public class FoodController {
     @GetMapping("/foods_edit/{id}")
     public String editFood(@PathVariable("id") int id, Model model){
         Optional<Food> optionalFood = foodService.getById(id);
-        Iterable<FoodCategory> foodCategories = foodCategoryService.getAll();
+        Specification<FoodCategory> spec = Specification.where(null);
+        Iterable<FoodCategory> foodCategories = foodCategoryService.getAll(spec);
         if (optionalFood.isPresent()) {
             Food food = optionalFood.get();
             model.addAttribute("food", optionalFood);
@@ -79,7 +82,8 @@ public class FoodController {
     }
     @PostMapping("/foods_edit")
     public String updateFood(@ModelAttribute("food") Food foodData, Model model){
-        Iterable<FoodCategory> foodCategories = foodCategoryService.getAll();
+        Specification<FoodCategory> spec = Specification.where(null);
+        Iterable<FoodCategory> foodCategories = foodCategoryService.getAll(spec);
         model.addAttribute("foodCategories", foodCategories);
         int foodCategoryId = foodData.getFoodCategory().getId();
         int foodId = foodData.getId();
@@ -101,5 +105,35 @@ public class FoodController {
             foodService.saveFood(food);
         }
         return "redirect:/foods";
+    }
+    //  ----------------------------------------------------------------------------
+    @GetMapping("/foods")
+    public String food(@RequestParam(required = false) String name,
+                       @RequestParam(required = false) String description,
+                       @RequestParam(required = false) String id,
+                       @RequestParam(required = false) Float price,
+                       @RequestParam(required = false) Long foodCategoryId,
+                       Model model) {
+        Specification<Food> spec = Specification.where(null);
+
+        if (name != null && !name.isEmpty()) {
+            spec = spec.and((root, query, builder) -> builder.equal(root.get("name"),  name ));
+        }
+        if (description != null && !description.isEmpty()) {
+            spec = spec.and((root, query, builder) -> builder.equal(root.get("description"),  description ));
+        }
+        if (price != null && price != 0) {
+            spec = spec.and((root, query, builder) -> builder.equal(root.get("price"),  price ));
+        }
+        if (id != null && !id.isEmpty()) {
+            spec = spec.and((root, query, builder) -> builder.equal(root.get("id"), id));
+        }
+//        if (managerId != null ) {
+//            spec = spec.and((root, query, builder) -> builder.equal(root.get("manager").get("managerId"), managerId));
+//        }
+
+        Iterable<Food> foods = foodService.getAll(spec);
+        model.addAttribute("foods", foods);
+        return "foods";
     }
 }
